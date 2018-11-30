@@ -11,7 +11,12 @@
 #define BUFFER 1000
 
 char randomBoard(char randchar_array[ROW][COLUMN]);
+char *read_file(char *filename);
 void printMatrix(char **matrix, int col, int row);
 char **readFromFile(int row, int col);
+void initMat(int m[][COLUMN]);
+void printMat(int matrix[ROW][COLUMN]);
+void find_path(int matrix[ROW][COLUMN], int matrix_aux[ROW][COLUMN],int row, int col);
+int check_consistency(int matrix[ROW][COLUMN], int matrix_aux[ROW][COLUMN],int row, int col);
 
 #endif //SOPA_FUNCTIONS_H

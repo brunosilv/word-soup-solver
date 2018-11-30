@@ -45,7 +45,7 @@ char **readFromFile(int row, int col) {
     char **wordsearch = (char **) malloc(col * sizeof(char *));
     for (int i = 0; i < col; i++)
         wordsearch[i] = (char *) malloc((size_t) row++);
-
+    //*(wordsearch + i) =
     FILE *f;
     if ((f = fopen(FILE_BOARD, "r")) == NULL) {
         printf("Error! opening file");
@@ -60,4 +60,74 @@ char **readFromFile(int row, int col) {
     }
     fclose(f);
     return wordsearch;
+}
+/**
+ * Verifca se o caminho é permitido
+ * @param matrix
+ * @param matrix_aux
+ * @param row
+ * @param col
+ * @return
+ */
+int check_consistency(int matrix[ROW][COLUMN], int matrix_aux[ROW][COLUMN],int row, int col)
+{
+    if(row>=0 && row< ROW && col>=0 && col<COLUMN)
+    {
+        if(matrix[ROW][COLUMN] == 1 && matrix_aux[ROW][COLUMN] == 0)
+            return 1;
+    }
+    return 0;
+}
+
+
+/**
+ * encontra o caminho
+ * @param matrix
+ * @param matrix_aux
+ * @param row
+ * @param col
+ */
+void find_path(int matrix[ROW][COLUMN], int matrix_aux[ROW][COLUMN],int row, int col)
+{
+    matrix_aux[row][col] = 1;
+
+    if(col == COLUMN - 1)
+    {
+        printMat(matrix_aux);
+        return ;
+    }
+
+    if(check_consistency(matrix, matrix_aux, row-1, col)==1)
+    {
+
+        find_path(matrix, matrix_aux, row-1, col);
+
+        matrix_aux[row-1][col] = 0;
+
+    }
+    if(check_consistency(matrix, matrix_aux, row, col+1) == 1)
+    {
+
+        find_path(matrix, matrix_aux, row, col+1);
+
+        matrix_aux[row][col+1] = 0;
+
+    }
+
+    if(check_consistency(matrix, matrix_aux, row+1, col) == 1)
+    {
+
+        find_path(matrix, matrix_aux, row+1, col);
+
+        matrix_aux[row+1][col] = 0;
+
+    }
+    if(check_consistency(matrix, matrix_aux, row, col-1) == 1)
+    {
+
+        find_path(matrix, matrix_aux, row, col-1);
+
+        matrix_aux[row][col-1] = 0;
+
+    }
 }
